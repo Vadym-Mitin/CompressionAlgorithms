@@ -53,4 +53,23 @@ public class Compression {
 
         return map;
     }
+
+    private class Node {
+        private Node leftNode;
+        private Node rightNode;
+        private char symbol;
+        private int counter;
+
+        public Node getLeftNode() {
+            return leftNode;
+        }
+
+        public Node getRightNode() {
+            return rightNode;
+        }
+
+        public int getCounter() {
+            return counter;
+        }
+    }
 }
