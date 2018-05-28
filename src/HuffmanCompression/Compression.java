@@ -54,22 +54,86 @@ public class Compression {
         return map;
     }
 
-    private class Node {
-        private Node leftNode;
-        private Node rightNode;
-        private char symbol;
-        private int counter;
+    private void doTree(List<Map.Entry<Character, Integer>> entrySet) {
 
-        public Node getLeftNode() {
-            return leftNode;
+        //Initialize list of first nodes tree
+        List<Node> nodeList = new ArrayList<>();
+        for (Map.Entry<Character, Integer> entry : entrySet) {
+            nodeList.add(Node.createNode().setSymbol(entry));
         }
 
-        public Node getRightNode() {
-            return rightNode;
+        //create tree
+        Node firstNode;
+        Node nextNode;
+        for (int i = 0; i < nodeList.size(); i++) {
+             firstNode=Node.createNode().setLeftNode(nodeList.get(i));
+             firstNode.setRightNode(nodeList.get(i+1));
+             nextNode = firstNode;
+
         }
 
-        public int getCounter() {
-            return counter;
-        }
+    }
+
+}
+
+class Node {
+
+    private static int depth;
+
+    private boolean isRoot;
+    private boolean isFirst;
+
+    private Node parent;
+    private Node leftNode;
+    private Node rightNode;
+
+    private Map.Entry<Character, Integer> symbol;
+
+    private int counter;
+
+    private Node() {
+    }
+
+
+    public static Node createNode() {
+        return new Node();
+    }
+
+    public Node setParent(Node parent) {
+        this.parent = parent;
+        return this;
+    }
+
+    public Node setSymbol(Map.Entry<Character, Integer> symbol) {
+        this.symbol = symbol;
+        isRoot = true;
+        return this;
+    }
+
+    public Node setLeftNode(Node leftNode) {
+        this.leftNode = leftNode;
+        return this;
+    }
+
+    public Node setRightNode(Node rightNode) {
+        this.rightNode = rightNode;
+        return this;
+    }
+
+    public Node getLeftNode() {
+        return leftNode;
+    }
+
+    public Node getRightNode() {
+        return rightNode;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public Map.Entry<Character, Integer> getSymbol() {
+        return symbol;
     }
 }
+
