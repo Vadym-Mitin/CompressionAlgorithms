@@ -37,14 +37,15 @@ public class Compression {
 //            }
 //        });
 
-        //LamBadAss
+        //        //LamBadAss 2 (simplified)
 //        Collections.sort(list,
-//                (Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2) ->
-//                        o1.getValue().compareTo(o2.getValue()));
+//                Comparator.comparing(Map.Entry<Character, Integer>::getValue));
 
-        //LamBadAss 2 (simplified)
+
+        //LamBadAss
         Collections.sort(list,
-                Comparator.comparing(Map.Entry<Character, Integer>::getValue));
+                (Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2) ->
+                        o1.getValue().compareTo(o2.getValue()));
 
         map = new LinkedHashMap<>();
         for (Map.Entry<Character, Integer> entry : list) {
@@ -54,21 +55,29 @@ public class Compression {
         return map;
     }
 
-    private void doTree(List<Map.Entry<Character, Integer>> entrySet) {
+    private void doTree(List<Map.Entry<Character, Integer>> nodeSet) {
 
         //Initialize list of first nodes tree
         List<Node> nodeList = new ArrayList<>();
-        for (Map.Entry<Character, Integer> entry : entrySet) {
+//        Set<Node> nodeSet = new HashSet<>();
+        for (Map.Entry<Character, Integer> entry : nodeSet) {
             nodeList.add(Node.createNode().setSymbol(entry));
+//            nodeSet.add(Node.createNode().setSymbol(entry));
         }
 
+        Queue<Node> queue =new PriorityQueue<Node>(nodeSet.size(),
+                (Node o1,Node o2) ->o1.getFreq().compareTo(o2.getFreq()) );
+
+        for (Node list: nodeList             ) {
+            queue.add(list);
+        }
         //create tree
         Node firstNode;
         Node nextNode;
         for (int i = 0; i < nodeList.size(); i++) {
-             firstNode=Node.createNode().setLeftNode(nodeList.get(i));
-             firstNode.setRightNode(nodeList.get(i+1));
-             nextNode = firstNode;
+            firstNode = Node.createNode().setLeftNode(nodeList.get(i));
+            firstNode.setRightNode(nodeList.get(i + 1));
+            nextNode = firstNode;
 
         }
 
@@ -89,7 +98,7 @@ class Node {
 
     private Map.Entry<Character, Integer> symbol;
 
-    private int counter;
+    private int freq;
 
     private Node() {
     }
@@ -107,6 +116,7 @@ class Node {
     public Node setSymbol(Map.Entry<Character, Integer> symbol) {
         this.symbol = symbol;
         isRoot = true;
+        this.freq = symbol.getValue();
         return this;
     }
 
@@ -128,8 +138,8 @@ class Node {
         return rightNode;
     }
 
-    public int getCounter() {
-        return counter;
+    public Integer getFreq() {
+        return freq;
     }
 
     public Map.Entry<Character, Integer> getSymbol() {
