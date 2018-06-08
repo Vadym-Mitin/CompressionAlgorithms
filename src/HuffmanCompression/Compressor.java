@@ -8,12 +8,12 @@ public class Compressor {
 
         String s = "abracadabra";
 
-        HuffmanTree tree = HuffmanTree.createTree(s);
+        HuffmanTree tree = HuffmanTree.growTree(s);
 
-        Map<Character, String> table = new HashMap<>();
-        HuffmanTree.createTable(table,tree.getParentNode(),"");
+        Map<Character, String> tableOfCodes = tree.createTable(tree.getParentNode());
 
-        for (Map.Entry entry : table.entrySet()) {
+
+        for (Map.Entry entry : tableOfCodes.entrySet()) {
             System.out.println("key = " + entry.getKey() + "  Val = " + entry.getValue());
         }
 
