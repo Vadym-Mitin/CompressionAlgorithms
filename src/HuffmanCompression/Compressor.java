@@ -17,7 +17,13 @@ public class Compressor {
             System.out.println("key = " + entry.getKey() + "  Val = " + entry.getValue());
         }
 
-        Byte[] bytes = new Byte[s.length()];
+//        Byte[] bytes = new Byte[s.length()];
+        StringBuffer sb = new StringBuffer();
+
+        for (int i = 0; i <s.length() ; i++) {
+            sb.append(tableOfCodes.get(s.charAt(i)));
+        }
+        System.out.println(sb.toString());
 
     }
 

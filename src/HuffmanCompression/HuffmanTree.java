@@ -6,14 +6,6 @@ public class HuffmanTree {
 
     private final Node parent;
 
-    private HuffmanTree(Node parent) {
-        this.parent = parent;
-    }
-
-    public Node getParentNode() {
-        return parent;
-    }
-
     public static void main(String[] args) {
         String s = "abracadabra";
         Map<Character, Integer> map = ListOfFrequencies(s);
@@ -35,17 +27,24 @@ public class HuffmanTree {
         }
     }
 
+    private HuffmanTree(Node parent) {
+        this.parent = parent;
+    }
+
+    public Node getParentNode() {
+        return parent;
+    }
 
     private static Map<Character, Integer> ListOfFrequencies(String s) {
         Map<Character, Integer> map = new HashMap<>();
         char[] characters = s.toCharArray();
         for (int i = 0; i < characters.length; i++) {
-            char symbol = characters[i];
-            if (map.containsKey(symbol)) {
-                Integer count = map.get(symbol) + 1;
-                map.put(symbol, count);
+            char aChar = characters[i];
+            if (map.containsKey(aChar)) {
+                Integer count = map.get(aChar) + 1;
+                map.put(aChar, count);
             } else {
-                map.put(symbol, 1);
+                map.put(aChar, 1);
             }
         }
 
@@ -87,7 +86,7 @@ public class HuffmanTree {
             int freq = left.getFreq() + right.getFreq();
             Node parent = Node.createNode(left, freq, right);
 
-            parent.setaChar(left.getaChar()+right.getaChar());
+            parent.setChars(left.getChars()+right.getChars());
 
             queue.add(parent);
         }
@@ -96,51 +95,35 @@ public class HuffmanTree {
         return new HuffmanTree(root);
     }
 
-    public Map<Character, String> createTable(Node node) {
+    public static Map<Character, String> createTable(Node node) {
         Map<Character, String> table = new LinkedHashMap<>();
         treeTraversalforCreateTable(table, node, "");
         return table;
     }
 
-    private void treeTraversalforCreateTable(Map<Character, String> table, Node node, String s) {
+    private static void treeTraversalforCreateTable(Map<Character, String> table, Node node, String s) {
 
         if (!node.isLeaf()) {
-
-            System.out.println(node.getaChar());
-
-            treeTraversalforCreateTable(table, node.leftNode, node.leftNode.getCode() + s);
-            treeTraversalforCreateTable(table, node.rightNode, node.rightNode.getCode() + s);
+//            System.out.println(node.getChars());
+            treeTraversalforCreateTable(table, node.getLeftNode(), s+ node.getLeftNode().getCode());
+            treeTraversalforCreateTable(table, node.getRightNode(), s+ node.getRightNode().getCode());
         } else {
             node.setLeafCode(s);
-            table.put(node.getTheChar(), node.getCode());
+            table.put(node.getSymbol(), node.getCode());
         }
     }
 
 
-    private static class Node {
+    public static class Node {
 
-        private static int depth = 0;
-
-        private boolean isRoot;
-        private boolean isFirst;
-        private String code;
-        private Map.Entry<Character, Integer> pair;
-        private int freq;
         private Node leftNode;
         private Node rightNode;
-        private String aChar;
-        private Character theChar;
-
-        public Character getTheChar() {
-            return theChar;
-        }
-
-        public void setaChar(String s) {
-            this.aChar = s;
-        }
-        public String getaChar() {
-            return aChar;
-        }
+        private boolean isRoot;
+        private boolean isFirst;
+        private int freq;
+        private String code;
+        private String chars;
+        private Character symbol;
 
         private Node(Node left, int freq, Node right) {
             this.leftNode = left;
@@ -148,13 +131,25 @@ public class HuffmanTree {
             this.freq = freq;
         }
 
-        private Node(Node left, int freq, Node right, Character aChar) {
+        private Node(Node left, int freq, Node right, Character symbol) {
             this.leftNode = left;
             this.rightNode = right;
             this.freq = freq;
-            this.aChar = aChar.toString();
-            this.theChar = aChar;
+            this.chars = symbol.toString();
+            this.symbol = symbol;
 
+        }
+
+        public Character getSymbol() {
+            return symbol;
+        }
+
+        public void setChars(String s) {
+            this.chars = s;
+        }
+
+        public String getChars() {
+            return chars;
         }
 
         public static Node createLeaf(Map.Entry<Character, Integer> symbol) {
@@ -162,7 +157,6 @@ public class HuffmanTree {
         }
 
         public static Node createNode(Node left, int freq, Node right) {
-            depth++;
             return new Node(left, freq, right);
         }
 
@@ -184,15 +178,7 @@ public class HuffmanTree {
         }
 
         public boolean isLeaf() {
-            return leftNode == null && rightNode == null && !(aChar.isEmpty());
-        }
-
-
-        public Node setPair(Map.Entry<Character, Integer> pair) {
-            this.pair = pair;
-            isRoot = true;
-            this.freq = pair.getValue();
-            return this;
+            return leftNode == null && rightNode == null && !(chars.isEmpty());
         }
 
         public Node setLeftNode(Node leftNode) {
@@ -215,10 +201,6 @@ public class HuffmanTree {
 
         public Integer getFreq() {
             return freq;
-        }
-
-        public Map.Entry<Character, Integer> getPair() {
-            return pair;
         }
 
     }
