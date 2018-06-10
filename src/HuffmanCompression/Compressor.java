@@ -1,5 +1,6 @@
 package HuffmanCompression;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class Compressor {
@@ -24,6 +25,11 @@ public class Compressor {
             sb.append(tableOfCodes.get(s.charAt(i)));
         }
         System.out.println(sb.toString());
+
+        String x = HuffmanTree.nodeSerialize(tree.getParentNode());
+        System.out.println(x);
+
+        HuffmanTree.Node newParent = HuffmanTree.nodeDeserialize(x);
 
     }
 
