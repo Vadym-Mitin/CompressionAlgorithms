@@ -1,4 +1,4 @@
 package HuffmanCompression;
 
-public class FileReader {
+public class FileWork {
 }
