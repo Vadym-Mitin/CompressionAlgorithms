@@ -12,9 +12,9 @@ public class SerializeHuffmanTable {
 
         for (Map.Entry<Character, String> entry : root.entrySet()) {
             sb.append(entry.getKey());
-            sb.append(" ");
+            sb.append("\0");
             sb.append(entry.getValue());
-            sb.append(" ");
+            sb.append("\0");
         }
 
         return sb.toString();
@@ -22,7 +22,7 @@ public class SerializeHuffmanTable {
 
     public static Map<Character, String> deserialize(String s) {
         if (s == null || s.length() == 0) return null;
-        StringTokenizer st = new StringTokenizer(s, " ");
+        StringTokenizer st = new StringTokenizer(s, "\0");
         Map<Character,String> table = new HashMap<>();
 
         while (st.hasMoreTokens()){
@@ -30,7 +30,8 @@ public class SerializeHuffmanTable {
             String value = "";
             for (int i = 0; i < 2; i++) {
                 String val = st.nextToken();
-                if (val.equals(" ")) {
+//                System.out.println(val);
+                if (val.equals("\0")) {
                     break;
                 }
                 if (i == 0) {

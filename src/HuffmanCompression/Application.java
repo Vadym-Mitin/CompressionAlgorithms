@@ -11,7 +11,7 @@ public class Application {
 
     public static void main(String[] args) {
 
-        String s = "abracadabra";
+        String s = "abracadabra dabra dabra dabra and cadabra or shwabra 123 321 222 333 ___ ----###### ___ ////--- AAA BBB CCCC";
         System.out.println("String :");
         System.out.println(s);
         Node tree = growTree(s);

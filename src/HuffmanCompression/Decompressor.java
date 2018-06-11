@@ -1,8 +1,6 @@
 package HuffmanCompression;
 
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 public class Decompressor {
 
@@ -24,17 +22,33 @@ public class Decompressor {
 
     }
 
+    private static String getLongestString(String[] array) {
+        int maxLength = 0;
+        String longestString = null;
+        for (String s : array) {
+            if (s.length() > maxLength) {
+                maxLength = s.length();
+                longestString = s;
+            }
+        }
+        return longestString;
+    }
+
     public static String decode(String s, Map<Character, String> table) {
 
-        Queue<Map.Entry<Character, String>> queue = new PriorityQueue<>((Map.Entry<Character, String> o2,
-                                                                         Map.Entry<Character, String> o1) ->
-                o1.getValue().compareToIgnoreCase(o2.getValue()));
-
-        queue.addAll(table.entrySet());
-
-        String maxValue = queue.poll().getValue();
-//        System.out.println(maxValue);
-        int maxCodeLength = maxValue.length();
+     String[] arr = new String[table.size()];
+     int iter = 0;
+        for (String s1 : table.values()) {
+            arr[iter] = s1;
+//            System.out.print(s1+"; ");
+            iter++;
+        }
+//        System.out.println();
+//        System.out.println(arr);
+        String max = getLongestString(arr);
+        System.out.println("longest string");
+        System.out.println(max);
+        int maxCodeLength = max.length();
 
         StringBuilder sb = new StringBuilder();
 
