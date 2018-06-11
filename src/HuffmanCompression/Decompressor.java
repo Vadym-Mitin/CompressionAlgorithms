@@ -1,6 +1,5 @@
 package HuffmanCompression;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -26,17 +25,16 @@ public class Decompressor {
     }
 
     public static String decode(String s, Map<Character, String> table) {
-//        Map<Character, String> table = parent.createTable(parentNode);
-//        System.out.println(table.toString());
-//        Iterator<Map.Entry<Character, String>> iterator = table.entrySet().iterator();
-//        int maxCodeLength = iterator.next().getValue().length();
 
-        Queue<Map.Entry<Character, String>> queue = new PriorityQueue<>((Map.Entry<Character, String> o1,
-                                                                         Map.Entry<Character, String> o2) ->
+        Queue<Map.Entry<Character, String>> queue = new PriorityQueue<>((Map.Entry<Character, String> o2,
+                                                                         Map.Entry<Character, String> o1) ->
                 o1.getValue().compareToIgnoreCase(o2.getValue()));
 
         queue.addAll(table.entrySet());
-        int maxCodeLength = queue.poll().getValue().length();
+
+        String maxValue = queue.poll().getValue();
+//        System.out.println(maxValue);
+        int maxCodeLength = maxValue.length();
 
         StringBuilder sb = new StringBuilder();
 
