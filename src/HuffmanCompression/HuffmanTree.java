@@ -8,6 +8,8 @@ public class HuffmanTree {
 
     public static void main(String[] args) {
         String s = "abracadabra";
+        System.out.println(s);
+
         Map<Character, Integer> map = ListOfFrequencies(s);
 
         for (Map.Entry entry : map.entrySet()) {
@@ -17,10 +19,8 @@ public class HuffmanTree {
         System.out.println();
         System.out.println();
 
-
-        HuffmanTree tree = HuffmanTree.growTree(s);
-        Map<Character, String> table = tree.createTable(tree.parent);
-
+        Node tree = HuffmanTree.growTree(s);
+        Map<Character, String> table = createTable(tree);
 
         for (Map.Entry entry : table.entrySet()) {
             System.out.println("key = " + entry.getKey() + "  Val = " + entry.getValue());
@@ -36,34 +36,28 @@ public class HuffmanTree {
     }
 
     private static Map<Character, Integer> ListOfFrequencies(String s) {
-        Map<Character, Integer> map = new HashMap<>();
+        Map<Character, Integer> listOfRepetition = new HashMap<>();
         char[] characters = s.toCharArray();
-        for (int i = 0; i < characters.length; i++) {
-            char aChar = characters[i];
-            if (map.containsKey(aChar)) {
-                Integer count = map.get(aChar) + 1;
-                map.put(aChar, count);
+        for (char aChar : characters) {
+            if (listOfRepetition.containsKey(aChar)) {
+                Integer count = listOfRepetition.get(aChar) + 1;
+                listOfRepetition.put(aChar, count);
             } else {
-                map.put(aChar, 1);
+                listOfRepetition.put(aChar, 1);
             }
         }
 
-        List<Map.Entry<Character, Integer>> list = new LinkedList<>(map.entrySet());
-
-        //Sorting witch Comparator
-        //LamBadAss
+        List<Map.Entry<Character, Integer>> list = new LinkedList<>(listOfRepetition.entrySet());
         Collections.sort(list, (Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2) ->
                 o1.getValue().compareTo(o2.getValue()));
-
-        map = new LinkedHashMap<>();
+        listOfRepetition = new LinkedHashMap<>();
         for (Map.Entry<Character, Integer> entry : list) {
-            map.put(entry.getKey(), entry.getValue());
+            listOfRepetition.put(entry.getKey(), entry.getValue());
         }
-
-        return map;
+        return listOfRepetition;
     }
 
-    public static HuffmanTree growTree(String s) {
+    public static Node growTree(String s) {
 
         Map<Character, Integer> nodeSet = HuffmanTree.ListOfFrequencies(s);
 
@@ -92,21 +86,21 @@ public class HuffmanTree {
         }
 
         Node root = queue.poll();
-        return new HuffmanTree(root);
+        return root;
     }
 
     public static Map<Character, String> createTable(Node node) {
         Map<Character, String> table = new LinkedHashMap<>();
-        treeTraversalforCreateTable(table, node, "");
+        treeTraversalForCreateTable(table, node, "");
         return table;
     }
 
-    private static void treeTraversalforCreateTable(Map<Character, String> table, Node node, String s) {
+    private static void treeTraversalForCreateTable(Map<Character, String> table, Node node, String s) {
 
         if (!node.isLeaf()) {
 //            System.out.println(node.getChars());
-            treeTraversalforCreateTable(table, node.getLeftNode(), s+ node.getLeftNode().getCode());
-            treeTraversalforCreateTable(table, node.getRightNode(), s+ node.getRightNode().getCode());
+            treeTraversalForCreateTable(table, node.getLeftNode(), s+ node.getLeftNode().getCode());
+            treeTraversalForCreateTable(table, node.getRightNode(), s+ node.getRightNode().getCode());
         } else {
             node.setLeafCode(s);
             table.put(node.getSymbol(), node.getCode());
@@ -114,94 +108,4 @@ public class HuffmanTree {
     }
 
 
-    public static class Node {
-
-        private Node leftNode;
-        private Node rightNode;
-        private boolean isRoot;
-        private boolean isFirst;
-        private int freq;
-        private String code;
-        private String chars;
-        private Character symbol;
-
-        private Node(Node left, int freq, Node right) {
-            this.leftNode = left;
-            this.rightNode = right;
-            this.freq = freq;
-        }
-
-        private Node(Node left, int freq, Node right, Character symbol) {
-            this.leftNode = left;
-            this.rightNode = right;
-            this.freq = freq;
-            this.chars = symbol.toString();
-            this.symbol = symbol;
-
-        }
-
-        public Character getSymbol() {
-            return symbol;
-        }
-
-        public void setChars(String s) {
-            this.chars = s;
-        }
-
-        public String getChars() {
-            return chars;
-        }
-
-        public static Node createLeaf(Map.Entry<Character, Integer> symbol) {
-            return new Node(null, symbol.getValue(), null, symbol.getKey());
-        }
-
-        public static Node createNode(Node left, int freq, Node right) {
-            return new Node(left, freq, right);
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public void setCode(String code) {
-            if (code.equals("1") || code.equals("0")) {
-                this.code = code;
-//                return this;
-            } else throw new IllegalStateException("this wrong code type 0 or 1");
-        }
-
-        public void setLeafCode(String code) {
-            if (isLeaf()) {
-                this.code = code;
-            }
-        }
-
-        public boolean isLeaf() {
-            return leftNode == null && rightNode == null && !(chars.isEmpty());
-        }
-
-        public Node setLeftNode(Node leftNode) {
-            this.leftNode = leftNode;
-            return this;
-        }
-
-        public Node setRightNode(Node rightNode) {
-            this.rightNode = rightNode;
-            return this;
-        }
-
-        public Node getLeftNode() {
-            return leftNode;
-        }
-
-        public Node getRightNode() {
-            return rightNode;
-        }
-
-        public Integer getFreq() {
-            return freq;
-        }
-
-    }
 }

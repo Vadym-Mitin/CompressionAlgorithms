@@ -2,33 +2,41 @@ package HuffmanCompression;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Decompressor {
 
     public static void main(String[] args) {
         String s = "abracadabra";
 
-        HuffmanTree tree = HuffmanTree.growTree(s);
-//        System.out.println(HuffmanTree.createTable(tree.getParentNode()).toString());
+        Node tree = HuffmanTree.growTree(s);
+
+        Map<Character, String> table = HuffmanTree.createTable(tree);
         String compressed = "01011001110011110101100";
 
-//        System.out.println(tree.getParentNode().getCode());
+        for (Map.Entry entry : table.entrySet()) {
+            System.out.println("key = " + entry.getKey() + "  Val = " + entry.getValue());
+        }
 
-        String swe = decode(compressed, tree);
+        String swe = decode(compressed, table);
 
         System.out.println(swe);
-//            for (int j = maxCode.length()-1; j >=0 ; j--) {
-//                System.out.println(j);
-//            }
 
     }
 
-    public static String decode(String s, HuffmanTree tree) {
-        HuffmanTree.Node parentNode = tree.getParentNode();
-        Map<Character, String> table = HuffmanTree.createTable(parentNode);
+    public static String decode(String s, Map<Character, String> table) {
+//        Map<Character, String> table = parent.createTable(parentNode);
 //        System.out.println(table.toString());
-        Iterator<Map.Entry<Character, String>> iterator = table.entrySet().iterator();
-        int maxCodeLength = iterator.next().getValue().length();
+//        Iterator<Map.Entry<Character, String>> iterator = table.entrySet().iterator();
+//        int maxCodeLength = iterator.next().getValue().length();
+
+        Queue<Map.Entry<Character, String>> queue = new PriorityQueue<>((Map.Entry<Character, String> o1,
+                                                                         Map.Entry<Character, String> o2) ->
+                o1.getValue().compareToIgnoreCase(o2.getValue()));
+
+        queue.addAll(table.entrySet());
+        int maxCodeLength = queue.poll().getValue().length();
 
         StringBuilder sb = new StringBuilder();
 
