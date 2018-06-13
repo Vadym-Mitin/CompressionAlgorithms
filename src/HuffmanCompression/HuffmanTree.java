@@ -4,44 +4,16 @@ import java.util.*;
 
 public class HuffmanTree {
 
-    private final Node parent;
-
-    public static void main(String[] args) {
-        String s = "abracadabra";
-        System.out.println(s);
-
-        Map<Character, Integer> map = ListOfFrequencies(s);
-
-        for (Map.Entry entry : map.entrySet()) {
-            System.out.println("key = " + entry.getKey() + "  Val = " + entry.getValue());
-        }
-
-        System.out.println();
-        System.out.println();
-
-        Node tree = HuffmanTree.growTree(s);
-        Map<Character, String> table = createTable(tree);
-
-        for (Map.Entry entry : table.entrySet()) {
-            System.out.println("key = " + entry.getKey() + "  Val = " + entry.getValue());
-        }
-    }
-
-    private HuffmanTree(Node parent) {
-        this.parent = parent;
-    }
-
-    public Node getParentNode() {
-        return parent;
-    }
-
     private static Map<Character, Integer> ListOfFrequencies(String s) {
         Map<Character, Integer> listOfRepetition = new HashMap<>();
         char[] characters = s.toCharArray();
+
         for (char aChar : characters) {
+            System.out.print(aChar);
+            if (aChar == '\n') System.out.print("#N#");
             if (listOfRepetition.containsKey(aChar)) {
-                Integer count = listOfRepetition.get(aChar) + 1;
-                listOfRepetition.put(aChar, count);
+                Integer freq = listOfRepetition.get(aChar) + 1;
+                listOfRepetition.put(aChar, freq);
             } else {
                 listOfRepetition.put(aChar, 1);
             }
@@ -59,10 +31,10 @@ public class HuffmanTree {
 
     public static Node growTree(String s) {
 
-        Map<Character, Integer> nodeSet = HuffmanTree.ListOfFrequencies(s);
+        Map<Character, Integer> nodeSet = ListOfFrequencies(s);
 
         //Initialize list of first nodes tree
-        Queue<Node> queue = new PriorityQueue<Node>(nodeSet.size(),
+        Queue<Node> queue = new PriorityQueue<>(nodeSet.size(),
                 Comparator.comparing(Node::getFreq));
 
         for (Map.Entry<Character, Integer> entry : nodeSet.entrySet()) {
@@ -84,9 +56,7 @@ public class HuffmanTree {
 
             queue.add(parent);
         }
-
-        Node root = queue.poll();
-        return root;
+        return queue.poll();
     }
 
     public static Map<Character, String> createTable(Node node) {
@@ -96,9 +66,7 @@ public class HuffmanTree {
     }
 
     private static void treeTraversalForCreateTable(Map<Character, String> table, Node node, String s) {
-
         if (!node.isLeaf()) {
-//            System.out.println(node.getChars());
             treeTraversalForCreateTable(table, node.getLeftNode(), s+ node.getLeftNode().getCode());
             treeTraversalForCreateTable(table, node.getRightNode(), s+ node.getRightNode().getCode());
         } else {

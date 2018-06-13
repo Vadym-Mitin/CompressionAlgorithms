@@ -5,7 +5,6 @@ import java.util.Map;
 public class Node {
     private Node leftNode;
     private Node rightNode;
-    private boolean isRoot;
     private boolean isFirst;
     private int freq;
     private String code;
@@ -60,7 +59,6 @@ public class Node {
     public void setCode(String code) {
         if (code.equals("1") || code.equals("0")) {
             this.code = code;
-//                return this;
         } else throw new IllegalStateException("this wrong code type 0 or 1");
     }
 

@@ -1,46 +1,71 @@
 package HuffmanCompression;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
-
-import static HuffmanCompression.Compressor.encode;
-import static HuffmanCompression.HuffmanTree.*;
-import static HuffmanCompression.SerializeHuffmanTable.*;
 
 
 public class Application {
+    private static File file;
+    private static File compressedFile;
 
     public static void main(String[] args) {
 
-        String s = "abracadabra dabra dabra dabra and cadabra or shwabra 123 321 222 333 ___ ----###### ___ ////--- AAA BBB CCCC";
-        System.out.println("String :");
-        System.out.println(s);
-        Node tree = growTree(s);
-
-        Map<Character, String> tableOfCodes = HuffmanTree.createTable(tree);
-
-        System.out.println("create table from string");
-        for (Map.Entry entry : tableOfCodes.entrySet()) {
-            System.out.println("key = " + entry.getKey() + "  Val = " + entry.getValue());
+        String message = null;
+        List<String> data = null;
+        if (args[0].equals("--compress")) {
+            compressedFile = new File(args[1]);
+            Compressor compressor = Compressor.instance();
+            try {
+                StringBuffer sb = new StringBuffer();
+                data = FileWork.readFile(compressedFile);
+                int i = data.size();
+                for (String string : data) {
+                    if (i==1) {
+                        sb.append(string);
+                        break;
+                    }
+                    sb.append(string);
+                    i--;
+                }
+                message = sb.toString();
+//                System.out.println(message);
+                String encoded = compressor.encode(message);
+                FileWork.writeData(encoded, compressedFile.getPath(), args[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        System.out.println("Encoded string");
-        String encoded = encode(s,tableOfCodes);
-        System.out.println(encoded);
-
-        System.out.println("Serialize table ");
-        String y = serialize(tableOfCodes);
-        System.out.println(y);
-
-        System.out.println("deserealize table");
-        Map<Character,String> deserialize = deserialize(y);
-
-        for (Map.Entry entry : deserialize.entrySet()) {
-            System.out.println("key = " + entry.getKey() + "  Val = " + entry.getValue());
+        if (args[0].equals("--decompress")) {
+            file = new File(args[1]);
+            Decompressor decompressor = Decompressor.instance();
+            try {
+                data = FileWork.readFile(file);
+                int i = data.size();
+                String encodedTable = null;
+                String encodedData = null;
+                StringBuffer sb = new StringBuffer();
+                for (String s : data) {
+                    if (i == 1) {
+                        encodedData = s;
+                        encodedTable = sb.toString();
+                        break;
+                    }
+                    sb.append(s);
+                    sb.append("\n");
+                    i--;
+                }
+                System.out.println(encodedData);
+                System.out.println(encodedTable);
+                Map<Character, String> decodedTable = decompressor.deco0mpressTable(encodedTable);
+                String decodedData = decompressor.decode(encodedData, decodedTable);
+//                System.out.println(decodedData);
+                FileWork.writeData(decodedData, file.getPath(), args[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
-        System.out.println("decoded string");
-        String decode = Decompressor.decode(encoded,deserialize);
-        System.out.println(decode);
-
     }
 }
