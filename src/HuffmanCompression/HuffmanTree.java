@@ -4,31 +4,6 @@ import java.util.*;
 
 public class HuffmanTree {
 
-    private static Map<Character, Integer> ListOfFrequencies(String s) {
-        Map<Character, Integer> listOfRepetition = new HashMap<>();
-        char[] characters = s.toCharArray();
-
-        for (char aChar : characters) {
-            System.out.print(aChar);
-            if (aChar == '\n') System.out.print("#N#");
-            if (listOfRepetition.containsKey(aChar)) {
-                Integer freq = listOfRepetition.get(aChar) + 1;
-                listOfRepetition.put(aChar, freq);
-            } else {
-                listOfRepetition.put(aChar, 1);
-            }
-        }
-
-        List<Map.Entry<Character, Integer>> list = new LinkedList<>(listOfRepetition.entrySet());
-        Collections.sort(list, (Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2) ->
-                o1.getValue().compareTo(o2.getValue()));
-        listOfRepetition = new LinkedHashMap<>();
-        for (Map.Entry<Character, Integer> entry : list) {
-            listOfRepetition.put(entry.getKey(), entry.getValue());
-        }
-        return listOfRepetition;
-    }
-
     public static Node growTree(String s) {
 
         Map<Character, Integer> nodeSet = ListOfFrequencies(s);
@@ -63,6 +38,31 @@ public class HuffmanTree {
         Map<Character, String> table = new LinkedHashMap<>();
         treeTraversalForCreateTable(table, node, "");
         return table;
+    }
+
+    private static Map<Character, Integer> ListOfFrequencies(String s) {
+        Map<Character, Integer> listOfRepetition = new HashMap<>();
+        char[] characters = s.toCharArray();
+
+        for (char aChar : characters) {
+            System.out.print(aChar);
+            if (aChar == '\n') System.out.print("#N#");
+            if (listOfRepetition.containsKey(aChar)) {
+                Integer freq = listOfRepetition.get(aChar) + 1;
+                listOfRepetition.put(aChar, freq);
+            } else {
+                listOfRepetition.put(aChar, 1);
+            }
+        }
+
+        List<Map.Entry<Character, Integer>> list = new LinkedList<>(listOfRepetition.entrySet());
+        Collections.sort(list, (Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2) ->
+                o1.getValue().compareTo(o2.getValue()));
+        listOfRepetition = new LinkedHashMap<>();
+        for (Map.Entry<Character, Integer> entry : list) {
+            listOfRepetition.put(entry.getKey(), entry.getValue());
+        }
+        return listOfRepetition;
     }
 
     private static void treeTraversalForCreateTable(Map<Character, String> table, Node node, String s) {

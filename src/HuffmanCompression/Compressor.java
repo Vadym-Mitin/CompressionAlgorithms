@@ -46,7 +46,7 @@ public class Compressor {
 
         String encodedData = stringBuilder.toString();
 
-        String serializedTable = SerializeHuffmanTable.serialize(table);
+        String serializedTable = SerializeHuffmanTable.serializeToString(table);
 
         return createOutputString(serializedTable, encodedData);
     }

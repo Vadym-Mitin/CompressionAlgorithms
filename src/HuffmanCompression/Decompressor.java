@@ -39,7 +39,7 @@ public class Decompressor {
     }
 
     public Map<Character, String> deco0mpressTable(String compressedTable) {
-        this.decompressedTable = SerializeHuffmanTable.deserialize(compressedTable);
+        this.decompressedTable = SerializeHuffmanTable.deserializeFromString(compressedTable);
         return decompressedTable;
     }
 
