@@ -5,7 +5,7 @@ import java.util.Map;
 public class Decompressor {
 
     private Map<Character, String> decompressedTable;
-    private String decompressedData;
+    private String decompressedData; // Неиспользуемая переменная.
 
     private Decompressor() {
     }
@@ -38,7 +38,7 @@ public class Decompressor {
         return longestString;
     }
 
-    public Map<Character, String> deco0mpressTable(String compressedTable) {
+    public Map<Character, String> deco0mpressTable(String compressedTable) { // Непонятно, что делает 0 в названии метода.
         this.decompressedTable = SerializeHuffmanTable.deserializeFromString(compressedTable);
         return decompressedTable;
     }
@@ -46,7 +46,7 @@ public class Decompressor {
     public String decode(String s, Map<Character, String> table) {
 
         String[] arr = new String[table.size()];
-        int iter = 0;
+        int iter = 0; // Что такое iter?
         for (String s1 : table.values()) {
             arr[iter] = s1;
             iter++;
@@ -67,6 +67,7 @@ public class Decompressor {
                 String substring = s.substring(counter, next);
                 if (table.containsValue(substring)) {
                     for (Map.Entry<Character, String> entry : table.entrySet()) {
+                        // Почему бы не записать таблицу как <String, Character> и упростить этот метод?
                         if (entry.getValue().equals(substring)) {
                             Character code = entry.getKey();
                             sb.append(code);

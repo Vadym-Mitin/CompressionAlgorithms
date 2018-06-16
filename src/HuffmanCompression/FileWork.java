@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FileWork {
     private static final String COMPRESS = ".compressed";
-    private static final String COMPRESSARG = "--compress";
+    private static final String COMPRESSARG = "--compress"; // Раздели COMPRESS и ARG знаком подчеркивания.
     private static final String DECOMPRESSARG = "--decompress";
     private static final String DECOMPRESS = ".decompressed";
 
@@ -16,12 +16,12 @@ public class FileWork {
         File file = new File(path);
         byte[] bytes = data.getBytes();
 
-        if (arg.equals(COMPRESSARG)) {
+        if (arg.equals(COMPRESSARG)) { // Правильней будет делать COMPRESSARG.equals(arg), чтобы избежать возможного NPE
             File compressed = new File(file.getAbsolutePath() + COMPRESS);
             compressed.createNewFile();
             Files.write(Paths.get(compressed.getAbsolutePath()), bytes);
 
-        }if (arg.equals(DECOMPRESSARG)) {
+        }if (arg.equals(DECOMPRESSARG)) { // Форматирование кода.
             File decompressed = new File(file.getAbsolutePath() + DECOMPRESS);
             decompressed.createNewFile();
             Files.write(Paths.get(decompressed.getAbsolutePath()), bytes);

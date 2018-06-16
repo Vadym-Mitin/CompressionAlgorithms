@@ -27,7 +27,7 @@ public class HuffmanTree {
             int freq = left.getFreq() + right.getFreq();
             Node parent = Node.createNode(left, freq, right);
 
-            parent.setChars(left.getChars()+right.getChars());
+            parent.setChars(left.getChars()+right.getChars()); // Форматирование.
 
             queue.add(parent);
         }
@@ -40,7 +40,7 @@ public class HuffmanTree {
         return table;
     }
 
-    private static Map<Character, Integer> ListOfFrequencies(String s) {
+    private static Map<Character, Integer> ListOfFrequencies(String s) { // Имя метода не может начинаться с большой буквы.
         Map<Character, Integer> listOfRepetition = new HashMap<>();
         char[] characters = s.toCharArray();
 
@@ -58,8 +58,9 @@ public class HuffmanTree {
         List<Map.Entry<Character, Integer>> list = new LinkedList<>(listOfRepetition.entrySet());
         Collections.sort(list, (Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2) ->
                 o1.getValue().compareTo(o2.getValue()));
-        listOfRepetition = new LinkedHashMap<>();
-        for (Map.Entry<Character, Integer> entry : list) {
+        listOfRepetition = new LinkedHashMap<>(); // Непонятно, почему ты используешь еще раз эту переменную, а не создаешь новую.
+
+        for (Map.Entry<Character, Integer> entry : list) { // Более правильный способ был бы ходить по keySet()
             listOfRepetition.put(entry.getKey(), entry.getValue());
         }
         return listOfRepetition;
