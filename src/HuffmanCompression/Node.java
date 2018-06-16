@@ -5,7 +5,7 @@ import java.util.Map;
 public class Node {
     private Node leftNode;
     private Node rightNode;
-    private boolean isFirst;
+    private boolean isFirst; // Неиспользуемое поле.
     private int freq;
     private String code;
     private String chars;
@@ -57,9 +57,9 @@ public class Node {
     }
 
     public void setCode(String code) {
-        if (code.equals("1") || code.equals("0")) {
+        if (code.equals("1") || code.equals("0")) { // Опять же, сравнение строк.
             this.code = code;
-        } else throw new IllegalStateException("this wrong code type 0 or 1");
+        } else throw new IllegalStateException("this wrong code type 0 or 1"); // Ставь {} после else всегда
     }
 
     public void setLeafCode(String code) {
@@ -72,10 +72,13 @@ public class Node {
         return leftNode == null && rightNode == null ;
     }
 
+    // Это не билдет. И ты никогда не используешь возвращаемое значение этого метода.
+    // почему мы его не сделать void?
     public Node setLeftNode(Node leftNode) {
         this.leftNode = leftNode;
         return this;
     }
+    // Тоже самое
 
     public Node setRightNode(Node rightNode) {
         this.rightNode = rightNode;

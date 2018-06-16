@@ -3,6 +3,7 @@ package HuffmanCompression;
 
 import java.util.StringTokenizer;
 
+// Неиспользуемый класс.
 public class SerializeHuffmanTreeNode {
 
     public static String serialize(Node root) {

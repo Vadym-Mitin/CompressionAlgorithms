@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+// Категорические неправильное имя класса. Так должен называться метода. Но не класс.
 public class SerializeHuffmanTable {
 
     public static void main(String[] args) {
@@ -75,7 +76,7 @@ public class SerializeHuffmanTable {
 
         for (Map.Entry<Character, String> entry : root.entrySet()) {
             sb.append(entry.getKey());
-            sb.append("\0");
+            sb.append("\0"); // Почему именно \0?
             sb.append(entry.getValue());
             sb.append("\0");
         }
@@ -84,14 +85,15 @@ public class SerializeHuffmanTable {
     }
 
     public static Map<Character, String> deserializeFromString(String s) {
-        if (s == null || s.length() == 0) return null;
+        if (s == null || s.length() == 0) return null; // Почему бы лучше просто не вернуть пустой Map?
+
         StringTokenizer st = new StringTokenizer(s, "\0");
         Map<Character, String> table = new HashMap<>();
 
         while (st.hasMoreTokens()) {
             Character key = null;
             String value = "";
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 2; i++) { // Две операции проще сделать без цикла.
                 String val = st.nextToken();
 //                System.out.println(val);
                 if (val.equals("\0")) {
