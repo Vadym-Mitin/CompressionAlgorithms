@@ -5,7 +5,6 @@ import java.util.Map;
 public class Node {
     private Node leftNode;
     private Node rightNode;
-    private boolean isFirst;
     private int freq;
     private String code;
     private String chars;

@@ -1,11 +1,74 @@
 package HuffmanCompression;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class Decompressor {
 
-    private Map<Character, String> decompressedTable;
-    private String decompressedData;
+    public static Decompressor instance() {
+        return Singleton.SINGLETON.getSingleton();
+    }
+
+    private String getLongestCode(Map<Character, String> table) {
+        String[] array = new String[table.size()];
+        int iteration = 0;
+        for (String value : table.values()) {
+            array[iteration] = value;
+            iteration++;
+        }
+        int maxLength = 0;
+        String longestString = null;
+        for (String s : array) {
+            if (s.length() > maxLength) {
+                maxLength = s.length();
+                longestString = s;
+            }
+        }
+        return longestString;
+    }
+
+    public Map<Character, String> decompressTable(String compressedTable) {
+        return SerializeHuffmanTable.deserializeFromString(compressedTable);
+    }
+
+    public Map<Character, String> decompressTable(byte[] compressedTable) throws IOException, ClassNotFoundException {
+        return SerializeHuffmanTable.deserializeFromByteArray(compressedTable);
+    }
+
+    public String decode(String s, Map<Character, String> table) throws NotFindCodeInTableException {
+
+        String longestCode = getLongestCode(table);
+        int maxCodeLength = longestCode.length();
+
+        StringBuilder sb = new StringBuilder();
+
+        int leftBorder = 0;
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = maxCodeLength; j > 0; j--) {
+
+                int rightBorder = leftBorder + j;
+                if (rightBorder >= s.length()) rightBorder = s.length();
+                if (leftBorder >= s.length()) break;
+
+                String substring = s.substring(leftBorder, rightBorder);
+                if (table.containsValue(substring)) {
+                    for (Map.Entry<Character, String> entry : table.entrySet()) {
+                        if (entry.getValue().equals(substring)) {
+                            Character code = entry.getKey();
+                            sb.append(code);
+                            leftBorder += j;
+                            i = j;
+                            if (leftBorder == s.length()) {
+                                throw new NotFindCodeInTableException("something wrong in readed data");
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return sb.toString();
+    }
 
     private Decompressor() {
     }
@@ -19,66 +82,6 @@ public class Decompressor {
             return DECOMPRESSOR;
         }
 
-    }
-
-
-    public static Decompressor instance() {
-        return Singleton.SINGLETON.getSingleton();
-    }
-
-    private String getLongestString(String[] array) {
-        int maxLength = 0;
-        String longestString = null;
-        for (String s : array) {
-            if (s.length() > maxLength) {
-                maxLength = s.length();
-                longestString = s;
-            }
-        }
-        return longestString;
-    }
-
-    public Map<Character, String> deco0mpressTable(String compressedTable) {
-        this.decompressedTable = SerializeHuffmanTable.deserializeFromString(compressedTable);
-        return decompressedTable;
-    }
-
-    public String decode(String s, Map<Character, String> table) {
-
-        String[] arr = new String[table.size()];
-        int iter = 0;
-        for (String s1 : table.values()) {
-            arr[iter] = s1;
-            iter++;
-        }
-        String max = getLongestString(arr);
-        int maxCodeLength = max.length();
-
-        StringBuilder sb = new StringBuilder();
-
-        int counter = 0;
-        for (int i = 0; i < s.length(); i++) {
-            for (int j = maxCodeLength; j > 0; j--) {
-
-                int next = counter + j;
-                if (next >= s.length()) next = s.length();
-                if (counter >= s.length()) break;
-
-                String substring = s.substring(counter, next);
-                if (table.containsValue(substring)) {
-                    for (Map.Entry<Character, String> entry : table.entrySet()) {
-                        if (entry.getValue().equals(substring)) {
-                            Character code = entry.getKey();
-                            sb.append(code);
-                            counter += j;
-                            i = j;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        return sb.toString();
     }
 
 }

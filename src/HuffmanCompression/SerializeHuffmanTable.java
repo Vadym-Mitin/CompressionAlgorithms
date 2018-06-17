@@ -2,6 +2,7 @@ package HuffmanCompression;
 
 
 import java.io.*;
+import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -20,6 +21,33 @@ public class SerializeHuffmanTable {
         hmap.put('g', "0011");
         hmap.put('h', "0011");
         hmap.put('i', "0011");
+        hmap.put('j', "0011");
+        hmap.put('k', "0011");
+        hmap.put('l', "0011");
+        hmap.put('m', "0011");
+        hmap.put('n', "0011");
+        hmap.put('o', "0011");
+        hmap.put('p', "0011");
+        hmap.put('q', "0011");
+        hmap.put('r', "0011");
+        hmap.put('s', "0011");
+        hmap.put('t', "0011");
+        hmap.put('u', "0011");
+        hmap.put('v', "0011");
+        hmap.put('w', "0011");
+        hmap.put('x', "0011");
+        hmap.put('y', "0011");
+        hmap.put('z', "0011");
+        hmap.put('1', "0011");
+        hmap.put('2', "0011");
+        hmap.put('3', "0011");
+        hmap.put('4', "0011");
+        hmap.put('5', "0011");
+        hmap.put('6', "0011");
+        hmap.put('7', "0011");
+        hmap.put('8', "0011");
+        hmap.put('9', "0011");
+        hmap.put('0', "0011");
         hmap.put('\n', "0011");
 
         byte[] bytes = null;
@@ -48,7 +76,13 @@ public class SerializeHuffmanTable {
             e.printStackTrace();
         }
         for (Map.Entry<Character, String> entry : table.entrySet()) {
-            System.out.println(entry.getKey() + " ; "+entry.getValue());
+            System.out.println(entry.getKey() + " ; " + entry.getValue());
+        }
+
+        byte[] bytesA = ByteBuffer.allocate(4).putInt(1695609641).array();
+
+        for (byte b : bytesA) {
+            System.out.format("0x%x ", b);
         }
 
     }
@@ -58,7 +92,7 @@ public class SerializeHuffmanTable {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
              ObjectOutputStream out = new ObjectOutputStream(bos)) {
             out.writeObject(table);
-            return bos.toByteArray();
+            return formatedTableBytes(bos.toByteArray());
         }
     }
 
@@ -93,7 +127,6 @@ public class SerializeHuffmanTable {
             String value = "";
             for (int i = 0; i < 2; i++) {
                 String val = st.nextToken();
-//                System.out.println(val);
                 if (val.equals("\0")) {
                     break;
                 }
@@ -109,6 +142,15 @@ public class SerializeHuffmanTable {
         }
 
         return table;
+    }
+
+    private static byte[] formatedTableBytes(byte[] table){
+        byte[] table2 = ByteBuffer.allocate(4).putInt(table.length).array();
+        int leng = table.length + table2.length;
+        byte[] destArr = new byte[leng];
+        System.arraycopy(table2,0,destArr, 0,table2.length);
+        System.arraycopy(table,0,destArr, table2.length,table.length);
+        return destArr;
     }
 
 }

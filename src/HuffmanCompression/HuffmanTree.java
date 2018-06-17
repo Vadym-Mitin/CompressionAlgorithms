@@ -40,13 +40,17 @@ public class HuffmanTree {
         return table;
     }
 
+    public static Map<Character, String> createTable(String text){
+        Node tree = growTree(text);
+        Map<Character, String> table = createTable(tree);
+        return table;
+    }
+
     private static Map<Character, Integer> ListOfFrequencies(String s) {
         Map<Character, Integer> listOfRepetition = new HashMap<>();
         char[] characters = s.toCharArray();
 
         for (char aChar : characters) {
-            System.out.print(aChar);
-            if (aChar == '\n') System.out.print("#N#");
             if (listOfRepetition.containsKey(aChar)) {
                 Integer freq = listOfRepetition.get(aChar) + 1;
                 listOfRepetition.put(aChar, freq);
