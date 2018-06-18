@@ -57,8 +57,8 @@ public class Application {
 
                 FileWork.Data dataD = FileWork.getDataBytes(summaryBytes);
                 String binary  = FileWork.getBinaryDataString(dataD);
-//                System.out.println("1 = "+codeData);
-//                System.out.println("2 = "+binary);
+                System.out.println("1 = "+codeData);
+                System.out.println("2 = "+binary);
 
 
                 FileWork.writeFile(summaryBytes, file.getAbsolutePath(), COMPRESS_OPTION);
