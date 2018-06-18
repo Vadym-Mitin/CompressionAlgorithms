@@ -27,14 +27,6 @@ public class Decompressor {
         return longestString;
     }
 
-    public Map<Character, String> decompressTable(String compressedTable) {
-        return SerializeHuffmanTable.deserializeFromString(compressedTable);
-    }
-
-    public Map<Character, String> decompressTable(byte[] compressedTable) throws IOException, ClassNotFoundException {
-        return SerializeHuffmanTable.deserializeFromByteArray(compressedTable);
-    }
-
     public String decode(String s, Map<Character, String> table) throws NotFindCodeInTableException {
 
         String longestCode = getLongestCode(table);

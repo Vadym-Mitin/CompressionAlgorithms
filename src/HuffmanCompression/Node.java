@@ -10,12 +10,6 @@ public class Node {
     private String chars;
     private Character symbol;
 
-    public Node(Character symbol, String code){
-        this.symbol = symbol;
-        this.code = code;
-        this.chars = code;
-    }
-
     private Node(Node left, int freq, Node right) {
         this.leftNode = left;
         this.rightNode = right;
@@ -69,16 +63,6 @@ public class Node {
 
     public boolean isLeaf() {
         return leftNode == null && rightNode == null ;
-    }
-
-    public Node setLeftNode(Node leftNode) {
-        this.leftNode = leftNode;
-        return this;
-    }
-
-    public Node setRightNode(Node rightNode) {
-        this.rightNode = rightNode;
-        return this;
     }
 
     public Node getLeftNode() {
