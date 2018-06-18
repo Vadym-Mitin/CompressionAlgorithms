@@ -1,4 +1,4 @@
-package HuffmanCompression;
+package com.myCompany.HuffmanCompression;
 
 public class UnexpectedFileFormat extends Exception {
     public UnexpectedFileFormat() {

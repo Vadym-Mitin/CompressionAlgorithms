@@ -1,4 +1,4 @@
-package HuffmanCompression;
+package com.myCompany.HuffmanCompression;
 
 import java.nio.ByteBuffer;
 import java.util.BitSet;

@@ -1,6 +1,5 @@
-package HuffmanCompression;
+package com.myCompany.HuffmanCompression;
 
-import java.io.IOException;
 import java.util.Map;
 
 public class Decompressor {

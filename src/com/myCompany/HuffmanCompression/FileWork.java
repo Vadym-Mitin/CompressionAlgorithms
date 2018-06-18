@@ -1,16 +1,11 @@
-package HuffmanCompression;
+package com.myCompany.HuffmanCompression;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-
-import static HuffmanCompression.SerializeHuffmanTable.deserializeFromByteArray;
-import static HuffmanCompression.SerializeHuffmanTable.serializeToByteArray;
 
 public class FileWork {
     private static final String COMPRESS_EXTENSION = ".compressed";

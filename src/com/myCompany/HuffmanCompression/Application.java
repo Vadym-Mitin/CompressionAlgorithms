@@ -1,8 +1,7 @@
-package HuffmanCompression;
+package com.myCompany.HuffmanCompression;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public class Application {
         if (args.length > 1) {
             String option = args[0];
             File file = new File(args[1]);
-            if (option.equals(COMPRESS_OPTION)) {
+            if (COMPRESS_OPTION.equals(option)) {
                 Compressor compressor = Compressor.instance();
                 List<String> strings = FileWork.readFileStrings(file);
 
@@ -43,7 +42,7 @@ public class Application {
                 FileWork.writeEncodedData(file, encodedBytes);
                 FileWork.writeMeta(file, serializeTable);
 
-            } else if (option.equals(DECOMPRESS_OPTION)) {
+            } else if (DECOMPRESS_OPTION.equals(option)) {
 
                 List<byte[]> list = FileWork.readCompressedFiles(file);
                 byte[] tableData = list.get(0);
