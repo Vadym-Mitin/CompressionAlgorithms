@@ -48,7 +48,6 @@ public class Application {
 
                 Map<Character, String> table = HuffmanTree.createTable(resultData);
                 byte[] encodedBytes = compressor.encodeToByte(resultData);
-
                 byte[] serializeTable = SerializeHuffmanTable.serializeToByteArray(table);
                 int summarylength = encodedBytes.length + serializeTable.length;
                 byte[] summaryBytes = new byte[summarylength];
@@ -66,6 +65,13 @@ public class Application {
             } else if (option.equals(DECOMPRESS_OPTION)) {
                 //////
                 System.out.println("decompress");
+
+                List<byte[]> list = FileWork.readCompressedFiles(file);
+                byte[] tableData = list.get(0);
+                byte[] dataData = list.get(1);
+                Map<Character, String> table = SerializeHuffmanTable.deserializeFromByteArray(tableData);
+
+
 //                Decompressor decompressor = Decompressor.instance();
 //                byte[] bytes = FileWork.readFileBytes(file);
 //                byte[] tableBytes = FileWork.getTableBytes(bytes);

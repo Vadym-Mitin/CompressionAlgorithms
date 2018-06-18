@@ -7,10 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static HuffmanCompression.SerializeHuffmanTable.deserializeFromByteArray;
 import static HuffmanCompression.SerializeHuffmanTable.serializeToByteArray;
@@ -91,27 +88,34 @@ public class FileWork {
         }
     }
 
+    private static void writeData(File file, byte[] dataBytes, String extension) throws IOException {
+        File compressed = new File(file.getAbsolutePath() + extension);
+        compressed.createNewFile();
+        Path compressedPath = Paths.get(compressed.getAbsolutePath());
+        Files.write(compressedPath, dataBytes);
+    }
+
+    private static void writeMeta(File file, byte[] dataBytes) throws IOException {
+        File compressed = new File(file.getAbsolutePath() + ".meta");
+        compressed.createNewFile();
+        Path compressedPath = Paths.get(compressed.getAbsolutePath());
+        Files.write(compressedPath, dataBytes);
+    }
+
     public static void writeFile(byte[] data, String path, String arg) throws IOException, UnexpectedFileFormat {
         File file = new File(path);
 
         if (arg.equals(COMPRESS_OPTION)) {
-            toFileWrite(file, data, COMPRESS_EXTENSION);
+            writeData(file, data, COMPRESS_EXTENSION);
         }
 
         if (arg.equals(DECOMPRESS_OPTION)) {
             if (!getFileExtension(file).equals(COMPRESS_EXTENSION)) {
                 throw new UnexpectedFileFormat("File format is unexpected");
             }
-            toFileWrite(file, data, DECOMPRESS_EXTENSION);
+            writeData(file, data, DECOMPRESS_EXTENSION);
+            writeMeta(file,data);
         }
-    }
-
-
-    private static void toFileWrite(File file, byte[] dataBytes, String extension) throws IOException {
-        File compressed = new File(file.getAbsolutePath() + extension);
-        compressed.createNewFile();
-        Path compressedPath = Paths.get(compressed.getAbsolutePath());
-        Files.write(compressedPath, dataBytes);
     }
 
     public static List<String> readFileStrings(File file) throws IOException {
@@ -121,6 +125,18 @@ public class FileWork {
 
     public static byte[] readFileBytes(File file) throws IOException {
         return Files.readAllBytes(Paths.get(file.getAbsolutePath()));
+    }
+
+    public static List<byte[]> readCompressedFiles(File file) throws UnexpectedFileFormat, IOException {
+        List<byte[]> list = new ArrayList<>();
+        File tableFile = new File(file.getAbsolutePath()+".meta");
+        File dataFile = new File(file.getAbsolutePath());
+        if (!dataFile.exists() || !tableFile.exists()){
+            throw new UnexpectedFileFormat("cant find table or meta file");
+        }
+       list.add(Files.readAllBytes(Paths.get(tableFile.getAbsolutePath())));
+       list.add(Files.readAllBytes(Paths.get(dataFile.getAbsolutePath())));
+        return list;
     }
 
     public static byte[] getTableBytes(byte[] data) {
@@ -206,6 +222,7 @@ public class FileWork {
             return length;
         }
     }
+
 
 
 }
