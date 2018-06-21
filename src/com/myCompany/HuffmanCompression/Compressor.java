@@ -25,7 +25,7 @@ public class Compressor {
         return Singleton.SINGLETON.getSingleton();
     }
 
-    private byte[] EncodeToByte(String encodedText) {
+    private byte[] encode(String encodedText) {
 
         Map<Character, String> table = HuffmanTree.createTable(encodedText);
 
@@ -39,7 +39,7 @@ public class Compressor {
         return result.getBytes();
     }
 
-    public void Compress(File file) throws IOException {
+    public void compress(File file) throws IOException {
         List<String> strings = FileWork.readFileStrings(file);
 
         StringBuilder sb = new StringBuilder();
@@ -58,7 +58,7 @@ public class Compressor {
 
         Map<Character, String> table = HuffmanTree.createTable(resultData);
 
-        byte[] encodedBytes = EncodeToByte(resultData);
+        byte[] encodedBytes = encode(resultData);
 
         byte[] serializeTable = SerializeHuffmanTable.serializeToByteArray(table);
 

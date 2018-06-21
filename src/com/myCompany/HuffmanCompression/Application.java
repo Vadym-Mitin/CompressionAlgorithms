@@ -5,8 +5,8 @@ import java.io.IOException;
 
 
 public class Application {
-    private static final String COMPRESS_OPTION = "--Compress";
-    private static final String DECOMPRESS_OPTION = "--Decompress";
+    private static final String COMPRESS_OPTION = "--compress";
+    private static final String DECOMPRESS_OPTION = "--decompress";
 
     public static void main(String[] args) throws UnexpectedFileFormat, UnexpectedOptions, IOException, ClassNotFoundException, NotFindCodeInTableException {
 
@@ -15,17 +15,17 @@ public class Application {
             File file = new File(args[1]);
             if (COMPRESS_OPTION.equals(option)) {
                 Compressor compressor = Compressor.instance();
-                compressor.Compress(file);
+                compressor.compress(file);
             } else if (DECOMPRESS_OPTION.equals(option)) {
                 Decompressor decompressor = Decompressor.instance();
-                decompressor.Decompress(file);
-            }
+                decompressor.decompress(file);
+            }else System.out.println("arguments wrong");
         } else {
             System.out.println("Usage:     huffman --<switch> <files...>");
             System.out.println();
             System.out.println("<Switches>");
-            System.out.println("Compress        compressed files");
-            System.out.println("Decompress      decompressed files");
+            System.out.println("compress        compressed files");
+            System.out.println("decompress      decompressed files");
         }
     }
 }

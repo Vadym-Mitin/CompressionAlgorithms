@@ -6,7 +6,7 @@ public class HuffmanTree {
 
     public static Node growTree(String s) {
 
-        Map<Character, Integer> nodeSet = ListOfFrequencies(s);
+        Map<Character, Integer> nodeSet = listOfFrequencies(s);
 
         //Initialize list of first nodes tree
         Queue<Node> queue = new PriorityQueue<>(nodeSet.size(),
@@ -36,7 +36,7 @@ public class HuffmanTree {
 
     public static Map<Character, String> createTable(Node node) {
         Map<Character, String> table = new LinkedHashMap<>();
-        treeTraversalForCreateTable(table, node, "");
+        treeTraversal(table, node, "");
         return table;
     }
 
@@ -46,7 +46,7 @@ public class HuffmanTree {
         return table;
     }
 
-    private static Map<Character, Integer> ListOfFrequencies(String s) {
+    private static Map<Character, Integer> listOfFrequencies(String s) {
         Map<Character, Integer> listOfRepetition = new HashMap<>();
         char[] characters = s.toCharArray();
 
@@ -69,10 +69,10 @@ public class HuffmanTree {
         return listOfRepetition;
     }
 
-    private static void treeTraversalForCreateTable(Map<Character, String> table, Node node, String s) {
+    private static void treeTraversal(Map<Character, String> table, Node node, String s) {
         if (!node.isLeaf()) {
-            treeTraversalForCreateTable(table, node.getLeftNode(), s+ node.getLeftNode().getCode());
-            treeTraversalForCreateTable(table, node.getRightNode(), s+ node.getRightNode().getCode());
+            treeTraversal(table, node.getLeftNode(), s+ node.getLeftNode().getCode());
+            treeTraversal(table, node.getRightNode(), s+ node.getRightNode().getCode());
         } else {
             node.setLeafCode(s);
             table.put(node.getSymbol(), node.getCode());

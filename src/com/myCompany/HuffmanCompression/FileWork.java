@@ -10,8 +10,8 @@ import java.util.*;
 public class FileWork {
     private static final String COMPRESS_EXTENSION = ".compressed";
     private static final String DECOMPRESS_EXTENSION = ".decompressed";
-    private static final String COMPRESS_OPTION = "--Compress";
-    private static final String DECOMPRESS_OPTION = "--Decompress";
+    private static final String COMPRESS_OPTION = "--compress";
+    private static final String DECOMPRESS_OPTION = "--decompress";
 
     private static String getFileExtension(File file) {
         String name = file.getName();
@@ -30,17 +30,11 @@ public class FileWork {
     }
 
     public static void writeEncodedData(File file, byte[] dataBytes) throws IOException {
-        File compressed = new File(file.getAbsolutePath() + COMPRESS_EXTENSION);
-        compressed.createNewFile();
-        Path compressedPath = Paths.get(compressed.getAbsolutePath());
-        Files.write(compressedPath, dataBytes);
+        writeData(file,dataBytes,COMPRESS_EXTENSION);
     }
 
     public static void writeMeta(File file, byte[] dataBytes) throws IOException {
-        File compressed = new File(file.getAbsolutePath() + COMPRESS_EXTENSION + ".meta");
-        compressed.createNewFile();
-        Path compressedPath = Paths.get(compressed.getAbsolutePath());
-        Files.write(compressedPath, dataBytes);
+        writeData(file,dataBytes,COMPRESS_EXTENSION+ ".meta");
     }
 
     public static void writeFile(byte[] data, String path, String arg) throws IOException, UnexpectedFileFormat {

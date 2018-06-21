@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Decompressor {
 
-    private static final String DECOMPRESS_OPTION = "--Decompress";
+    private static final String DECOMPRESS_OPTION = "--decompress";
 
     public static Decompressor instance() {
         return Singleton.SINGLETON.getSingleton();
@@ -66,7 +66,7 @@ public class Decompressor {
         return sb.toString();
     }
 
-    public void Decompress(File file) throws IOException, UnexpectedFileFormat, ClassNotFoundException, NotFindCodeInTableException {
+    public void decompress(File file) throws IOException, UnexpectedFileFormat, ClassNotFoundException, NotFindCodeInTableException {
 
         List<byte[]> list = FileWork.readCompressedFiles(file);
         byte[] tableData = list.get(0);
