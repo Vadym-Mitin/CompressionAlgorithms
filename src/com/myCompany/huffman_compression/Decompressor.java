@@ -1,4 +1,4 @@
-package com.myCompany.HuffmanCompression;
+package com.myCompany.huffman_compression;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,12 +69,12 @@ public class Decompressor {
     public void decompress(File file) throws IOException, UnexpectedFileFormat, ClassNotFoundException, NotFindCodeInTableException {
 
         List<byte[]> list = FileWork.readCompressedFiles(file);
-        byte[] tableData = list.get(0);
-        byte[] dataData = list.get(1);
+        byte[] tableBytes = list.get(0);
+        byte[] dataBytes = list.get(1);
 
-        Map<Character, String> table = SerializeHuffmanTable.deserializeFromByteArray(tableData);
+        Map<Character, String> table = SerializeHuffmanTable.deserializeFromByteArray(tableBytes);
 
-        String binaryString = new String(dataData);
+        String binaryString = new String(dataBytes);
 
         String decode = decode(binaryString, table);
 

@@ -1,4 +1,4 @@
-package com.myCompany.HuffmanCompression;
+package com.myCompany.huffman_compression;
 
 import java.io.File;
 import java.io.IOException;

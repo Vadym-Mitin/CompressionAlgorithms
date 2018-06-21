@@ -1,4 +1,4 @@
-package com.myCompany.HuffmanCompression;
+package com.myCompany.huffman_compression;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,12 +40,12 @@ public class FileWork {
     public static void writeFile(byte[] data, String path, String arg) throws IOException, UnexpectedFileFormat {
         File file = new File(path);
 
-        if (arg.equals(COMPRESS_OPTION)) {
+        if (COMPRESS_OPTION.equals(arg)) {
             writeData(file, data, COMPRESS_EXTENSION);
         }
 
-        if (arg.equals(DECOMPRESS_OPTION)) {
-            if (!getFileExtension(file).equals(COMPRESS_EXTENSION)) {
+        if (DECOMPRESS_OPTION.equals(arg)) {
+            if (!COMPRESS_EXTENSION.equals(getFileExtension(file))) {
                 throw new UnexpectedFileFormat("File format is unexpected");
             }
             writeData(file, data, DECOMPRESS_EXTENSION);

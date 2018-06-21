@@ -1,4 +1,4 @@
-package com.myCompany.HuffmanCompression;
+package com.myCompany.huffman_compression;
 
 public class UnexpectedOptions extends Exception {
     public UnexpectedOptions() {

@@ -1,11 +1,8 @@
-package com.myCompany.HuffmanCompression;
+package com.myCompany.huffman_compression;
 
 
 import java.io.*;
-import java.nio.ByteBuffer;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 public class SerializeHuffmanTable {
 
