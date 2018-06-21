@@ -1,8 +1,13 @@
 package com.myCompany.HuffmanCompression;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class Decompressor {
+
+    private static final String DECOMPRESS_OPTION = "--Decompress";
 
     public static Decompressor instance() {
         return Singleton.SINGLETON.getSingleton();
@@ -26,7 +31,7 @@ public class Decompressor {
         return longestString;
     }
 
-    public String decode(String s, Map<Character, String> table) throws NotFindCodeInTableException {
+    private String decode(String s, Map<Character, String> table) throws NotFindCodeInTableException {
 
         String longestCode = getLongestCode(table);
         int maxCodeLength = longestCode.length();
@@ -59,6 +64,21 @@ public class Decompressor {
             }
         }
         return sb.toString();
+    }
+
+    public void Decompress(File file) throws IOException, UnexpectedFileFormat, ClassNotFoundException, NotFindCodeInTableException {
+
+        List<byte[]> list = FileWork.readCompressedFiles(file);
+        byte[] tableData = list.get(0);
+        byte[] dataData = list.get(1);
+
+        Map<Character, String> table = SerializeHuffmanTable.deserializeFromByteArray(tableData);
+
+        String binaryString = new String(dataData);
+
+        String decode = decode(binaryString, table);
+
+        FileWork.writeFile(decode.getBytes(), file.getAbsolutePath(), DECOMPRESS_OPTION);
     }
 
     private Decompressor() {

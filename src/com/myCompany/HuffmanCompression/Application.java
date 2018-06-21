@@ -2,13 +2,11 @@ package com.myCompany.HuffmanCompression;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 
 public class Application {
-    private static final String COMPRESS_OPTION = "--compress";
-    private static final String DECOMPRESS_OPTION = "--decompress";
+    private static final String COMPRESS_OPTION = "--Compress";
+    private static final String DECOMPRESS_OPTION = "--Decompress";
 
     public static void main(String[] args) throws UnexpectedFileFormat, UnexpectedOptions, IOException, ClassNotFoundException, NotFindCodeInTableException {
 
@@ -17,47 +15,17 @@ public class Application {
             File file = new File(args[1]);
             if (COMPRESS_OPTION.equals(option)) {
                 Compressor compressor = Compressor.instance();
-                List<String> strings = FileWork.readFileStrings(file);
-
-                StringBuilder sb = new StringBuilder();
-                int counter = 0;
-                for (String string : strings) {
-                    if (counter == (strings.size() - 1)) {
-                        sb.append(string);
-                        break;
-                    }
-                    sb.append(string);
-                    sb.append("\n");
-                    counter++;
-                }
-
-                String resultData = sb.toString();
-
-                Map<Character, String> table = HuffmanTree.createTable(resultData);
-
-                byte[] encodedBytes = compressor.encodeToByte2(resultData);
-
-                byte[] serializeTable = SerializeHuffmanTable.serializeToByteArray(table);
-
-                FileWork.writeEncodedData(file, encodedBytes);
-                FileWork.writeMeta(file, serializeTable);
-
+                compressor.Compress(file);
             } else if (DECOMPRESS_OPTION.equals(option)) {
-
-                List<byte[]> list = FileWork.readCompressedFiles(file);
-                byte[] tableData = list.get(0);
-                byte[] dataData = list.get(1);
-
-                Map<Character, String> table = SerializeHuffmanTable.deserializeFromByteArray(tableData);
-
-                String binaryString = new String(dataData);
-
                 Decompressor decompressor = Decompressor.instance();
-                String decode = decompressor.decode(binaryString, table);
-
-                FileWork.writeFile(decode.getBytes(), file.getAbsolutePath(), DECOMPRESS_OPTION);
-
-            } else throw new UnexpectedOptions("This options wrong");
+                decompressor.Decompress(file);
+            }
+        } else {
+            System.out.println("Usage:     huffman --<switch> <files...>");
+            System.out.println();
+            System.out.println("<Switches>");
+            System.out.println("Compress        compressed files");
+            System.out.println("Decompress      decompressed files");
         }
     }
 }

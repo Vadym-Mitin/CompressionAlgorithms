@@ -25,6 +25,14 @@ public class Node {
 
     }
 
+    public static Node createLeaf(Map.Entry<Character, Integer> symbol) {
+        return new Node(null, symbol.getValue(), null, symbol.getKey());
+    }
+
+    public static Node createNode(Node left, int freq, Node right) {
+        return new Node(left, freq, right);
+    }
+
     public Character getSymbol() {
         return symbol;
     }
@@ -35,14 +43,6 @@ public class Node {
 
     public String getChars() {
         return chars;
-    }
-
-    public static Node createLeaf(Map.Entry<Character, Integer> symbol) {
-        return new Node(null, symbol.getValue(), null, symbol.getKey());
-    }
-
-    public static Node createNode(Node left, int freq, Node right) {
-        return new Node(left, freq, right);
     }
 
     public String getCode() {

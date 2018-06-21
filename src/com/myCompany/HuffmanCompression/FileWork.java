@@ -10,8 +10,8 @@ import java.util.*;
 public class FileWork {
     private static final String COMPRESS_EXTENSION = ".compressed";
     private static final String DECOMPRESS_EXTENSION = ".decompressed";
-    private static final String COMPRESS_OPTION = "--compress";
-    private static final String DECOMPRESS_OPTION = "--decompress";
+    private static final String COMPRESS_OPTION = "--Compress";
+    private static final String DECOMPRESS_OPTION = "--Decompress";
 
     private static String getFileExtension(File file) {
         String name = file.getName();
@@ -63,16 +63,12 @@ public class FileWork {
         return string;
     }
 
-    public static byte[] readFileBytes(File file) throws IOException {
-        return Files.readAllBytes(Paths.get(file.getAbsolutePath()));
-    }
-
     public static List<byte[]> readCompressedFiles(File file) throws UnexpectedFileFormat, IOException {
         List<byte[]> list = new ArrayList<>();
         File tableFile = new File(file.getAbsolutePath() + ".meta");
         File dataFile = new File(file.getAbsolutePath());
         if (!dataFile.exists() || !tableFile.exists()) {
-            throw new UnexpectedFileFormat("cant find table or meta file");
+            throw new UnexpectedFileFormat("cant find file or meta file");
         }
         byte[] tableDytes = Files.readAllBytes(Paths.get(tableFile.getAbsolutePath()));
         byte[] dataBytes = Files.readAllBytes(Paths.get(dataFile.getAbsolutePath()));
